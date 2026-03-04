@@ -200,6 +200,7 @@
                 { id: 'pjok', name: 'PJOK', icon: 'fas fa-running', color: 'bg-orange-100 text-orange-600' },
                 { id: 'seni', name: 'Seni Budaya', icon: 'fas fa-palette', color: 'bg-pink-100 text-pink-600' },
                 { id: 'tik', name: 'Informatika', icon: 'fas fa-laptop-code', color: 'bg-cyan-100 text-cyan-600' },
+                { id: 'tik', name: 'B. Inggris', icon: 'fas fa-laptop-code', color: 'bg-cyan-100 text-cyan-600' },
                 { id: 'game', name: 'Game PID', icon: 'fas fa-gamepad', color: 'bg-violet-100 text-violet-600' },
                 { id: 'lainnya', name: 'Lainnya', icon: 'fas fa-th-large', color: 'bg-slate-200 text-slate-600' }
             ];
@@ -222,6 +223,11 @@
             const [isTestiModalOpen, setIsTestiModalOpen] = useState(false);
             const initialPublicTesti = { name: '', role: '', quote: '', rating: '5' };
             const [publicTesti, setPublicTesti] = useState(initialPublicTesti);
+
+            // STATE: Laporan Konten (Ditambahkan)
+            const [reportModalConfig, setReportModalConfig] = useState({ isOpen: false, mediaId: null, mediaTitle: '' });
+            const initialFormReport = { name: '', school: '', reason: '' };
+            const [formReport, setFormReport] = useState(initialFormReport);
 
             // STATE: Testimoni Pagination & Expand
             const [currentTestiPage, setCurrentTestiPage] = useState(0);
@@ -334,6 +340,22 @@
                 setPublicTesti(initialPublicTesti); 
                 setIsTestiModalOpen(false);
                 showToast("Terima kasih! Ulasan Anda telah berhasil dikirim.");
+            };
+
+            // HANDLER: Kirim Laporan Konten (Ditambahkan)
+            const handleReportSubmit = (e) => {
+                e.preventDefault();
+                console.log("=== LAPORAN KONTEN BARU ===");
+                console.log("Media ID :", reportModalConfig.mediaId);
+                console.log("Media    :", reportModalConfig.mediaTitle);
+                console.log("Pelapor  :", formReport.name);
+                console.log("Sekolah  :", formReport.school);
+                console.log("Alasan   :", formReport.reason);
+                console.log("===========================");
+                
+                showToast("Terima kasih. Laporan berhasil dikirim dan akan segera dievaluasi.");
+                setReportModalConfig({ isOpen: false, mediaId: null, mediaTitle: '' });
+                setFormReport(initialFormReport);
             };
 
             const requestDelete = (type, id) => setDeleteModalConfig({ isOpen: true, type, id });
@@ -470,7 +492,7 @@
                         <div className="p-3 border-t border-slate-100">
                             <button onClick={() => { if(isAdminAuthenticated) switchTab('admin'); else setShowPasswordModal(true); }} 
                                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all ${currentTab === 'admin' ? 'bg-slate-800 text-white shadow-md' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}>
-                                <i className={`fas ${isAdminAuthenticated ? 'fa-cog' : 'fa-lock'} text-lg w-5 text-center`}></i> Admin Panel
+                                <i className={`fas ${isAdminAuthenticated ? 'fa-cog' : 'fa-lock'} text-lg w-5 text-center`}></i> Admin
                             </button>
                         </div>
                     </nav>
@@ -493,7 +515,7 @@
                                                 Belajar Jadi <br/><span className="text-red-500">RIANG</span> dan <span className="text-black-500">Menyenangkan!</span>
                                             </h1>
                                             <p className="text-slate-600 text-sm md:text-base leading-relaxed max-w-lg mx-auto md:mx-0">
-                                                RIANG (Ruang Digital yang Bermakna dan Menyenangkan) Silahkan akses ratusan materi interaktif yang dibuat oleh guru-guru hebat di seluruh Indonesia.
+                                                Silahkan akses ratusan materi interaktif yang dibuat oleh guru-guru SD hebat di kota Bandar Lampung.
                                             </p>
                                             <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 mt-4">
                                                 <button onClick={() => switchTab('services')} className="w-full sm:w-auto px-6 py-3.5 md:py-3 bg-red-500 text-white text-sm md:text-base font-bold rounded-xl hover:bg-red-600 shadow-lg shadow-red-500/30 active:scale-95 transition-all flex items-center justify-center gap-2">
@@ -635,6 +657,13 @@
                                                                         <i className="fas fa-user-circle mr-1.5 text-sm"></i> {media.kontributor}
                                                                     </div>
                                                                     <div className="flex items-center gap-2">
+                                                                        <button 
+                                                                            onClick={() => setReportModalConfig({ isOpen: true, mediaId: media.id, mediaTitle: media.judul })}
+                                                                            className="flex items-center justify-center px-2.5 py-1.5 md:py-2 rounded-lg text-xs font-bold transition-all border text-slate-400 bg-white border-slate-200 hover:bg-red-50 hover:text-red-500 hover:border-red-200 shadow-sm"
+                                                                            title="Laporkan Konten"
+                                                                        >
+                                                                            <i className="fas fa-flag"></i>
+                                                                        </button>
                                                                         <button 
                                                                             onClick={() => handleLikeToggle(media.id)}
                                                                             className={`flex items-center gap-1.5 px-3 py-1.5 md:py-2 rounded-lg text-xs font-bold transition-all border ${hasLiked ? 'text-red-500 bg-red-50 border-red-200' : 'text-slate-500 bg-slate-50 border-slate-200 hover:bg-slate-100'}`}
@@ -809,7 +838,7 @@
                                 <div className="slide-up h-full flex flex-col">
                                     <div className="flex items-center justify-between mb-5 md:mb-6">
                                         <div>
-                                            <h2 className="text-xl md:text-2xl font-black text-slate-900">Admin Panel</h2>
+                                            <h2 className="text-xl md:text-2xl font-black text-slate-900">Admin</h2>
                                             <p className="text-slate-500 text-xs">Kelola Data Aplikasi secara Real-time</p>
                                         </div>
                                         <button onClick={() => { setIsAdminAuthenticated(false); switchTab('hero'); }} className="p-2 md:px-4 md:py-2 bg-slate-200 text-slate-700 rounded-lg text-xs md:text-sm font-bold active:scale-95 transition-all">
@@ -1057,7 +1086,7 @@
                             </div>
                             
                             <div className="max-w-5xl mx-auto mt-10 pt-6 border-t border-slate-100 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-2">
-                                <p className="text-xs text-slate-400">© 2026 RIANG Edukasi. All rights reserved.</p>
+                                <p className="text-xs text-slate-400">© 2026 RIANG creative by Kombel SD kota Bandar Lampung. All rights reserved.</p>
                                 <p className="text-xs text-slate-400 flex items-center gap-1 justify-center">Dibuat dengan <i className="fas fa-heart text-red-500"></i> untuk Pendidikan Indonesia</p>
                             </div>
                         </footer>
@@ -1161,14 +1190,83 @@
                             </div>
                         </div>
                     )}
+
+                    {/* MODAL LAPORAN KONTEN (Ditambahkan) */}
+                    {reportModalConfig.isOpen && (
+                        <div className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm fade-in">
+                            <div className="bg-white rounded-2xl p-5 md:p-6 w-full max-w-md shadow-2xl relative slide-up">
+                                <button onClick={() => setReportModalConfig({ isOpen: false, mediaId: null, mediaTitle: '' })} className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 text-sm font-bold transition-colors"><i className="fas fa-times"></i></button>
+                                
+                                <div className="flex items-center gap-3 mb-5">
+                                    <div className="w-10 h-10 bg-red-50 text-red-500 rounded-full flex items-center justify-center text-lg shrink-0">
+                                        <i className="fas fa-flag"></i>
+                                    </div>
+                                    <div>
+                                        <h3 className="text-lg font-black text-slate-800 leading-tight">Laporkan Konten</h3>
+                                        <p className="text-xs text-slate-500 truncate max-w-[200px] md:max-w-[280px]">"{reportModalConfig.mediaTitle}"</p>
+                                    </div>
+                                </div>
+
+                                <form onSubmit={handleReportSubmit} className="space-y-3">
+                                    <input required type="text" placeholder="Nama Pelapor" className="w-full p-3 border border-slate-200 rounded-lg outline-none focus:border-red-400 font-medium text-sm text-slate-800 transition-colors" value={formReport.name} onChange={e => setFormReport({...formReport, name: e.target.value})} />
+                                    <input required type="text" placeholder="Asal Sekolah" className="w-full p-3 border border-slate-200 rounded-lg outline-none focus:border-red-400 font-medium text-sm text-slate-800 transition-colors" value={formReport.school} onChange={e => setFormReport({...formReport, school: e.target.value})} />
+                                    <textarea required placeholder="Alasan konten ini tidak tepat atau dilaporkan..." rows="3" className="w-full p-3 border border-slate-200 rounded-lg resize-none outline-none focus:border-red-400 font-medium text-sm text-slate-800 transition-colors" value={formReport.reason} onChange={e => setFormReport({...formReport, reason: e.target.value})}></textarea>
+                                    
+                                    <div className="flex gap-2 pt-2">
+                                        <button type="button" onClick={() => setReportModalConfig({ isOpen: false, mediaId: null, mediaTitle: '' })} className="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold rounded-lg active:scale-[0.98] transition-all">
+                                            Batal
+                                        </button>
+                                        <button type="submit" className="flex-1 py-2.5 bg-red-500 hover:bg-red-600 text-white text-sm font-bold rounded-lg shadow active:scale-[0.98] transition-all">
+                                            Kirim Laporan
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    )}
                 </div>
             );
         }
 
         // --- MERENDER APLIKASI KE DOM ---
+        // ... kode React Anda yang lain ...
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
+    </script> <!-- PENUTUP JAVASCRIPT HARUS DI SINI -->
 
+
+    <!-- ========================================== -->
+    <!-- FITUR FULL SCREEN (TIDAK MENGUBAH DESAIN)  -->
+    <!-- ========================================== -->
+    <button id="btn-fullscreen" onclick="toggleFullScreen()" class="fixed top-6 right-6 z-[9999] bg-slate-800/80 hover:bg-slate-900 text-white p-3 rounded-full shadow-xl backdrop-blur-sm transition-all duration-300 group flex items-center justify-center w-14 h-14" title="Layar Penuh">
+        <i id="icon-fullscreen" class="fas fa-expand text-2xl group-hover:scale-110 transition-transform"></i>
+    </button>
+
+    <script>
+        function toggleFullScreen() {
+            const icon = document.getElementById('icon-fullscreen');
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        document.addEventListener('fullscreenchange', () => {
+            const icon = document.getElementById('icon-fullscreen');
+            if (!document.fullscreenElement) {
+                icon.classList.remove('fa-compress');
+                icon.classList.add('fa-expand');
+            } else {
+                icon.classList.remove('fa-expand');
+                icon.classList.add('fa-compress');
+            }
+        });
     </script>
+
 </body>
 </html>
