@@ -37,9 +37,16 @@
 
     <!-- Sidebar -->
     <aside id="sidebar" class="w-64 bg-primary text-white flex flex-col transition-all duration-300 z-20">
-        <div class="p-6 flex items-center space-x-3 border-b border-blue-800">
-            <i class="fas fa-robot text-2xl text-secondary"></i>
-            <span class="text-xl font-bold tracking-wider">EduAI SD</span>
+        <div class="p-6 border-b border-blue-800">
+            <div class="flex items-center space-x-3">
+                <i class="fas fa-robot text-2xl text-secondary"></i>
+                <span class="text-xl font-bold tracking-wider">EduAI SD</span>
+            </div>
+            <p class="mt-3 text-[11px] text-blue-200 leading-tight border-t border-blue-700/50 pt-2">
+                dibuat oleh : <br>
+                <span class="font-semibold text-white">Supriyadi, S. Pd. Gr</span> <br>
+                SDN 1 Durian Payung
+            </p>
         </div>
         <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
             <button onclick="switchTab('dashboard')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 bg-blue-800 rounded-lg text-left transition hover:bg-blue-700" data-target="dashboard">
@@ -138,18 +145,20 @@
 
             <!-- Generator Section -->
             <section id="generator" class="page-section hidden">
-                <div class="flex flex-col lg:flex-row gap-6 relative">
+                <div class="flex flex-col gap-6 relative">
+                    
                     <!-- Form Input -->
-                    <div class="w-full lg:w-1/3 bg-white rounded-xl shadow-sm p-6 h-fit no-print">
-                        <h3 class="text-lg font-bold text-gray-800 border-b pb-3 mb-4">Pengaturan Soal</h3>
+                    <div class="w-full bg-white rounded-xl shadow-sm p-6 no-print">
+                        <h3 class="text-lg font-bold text-gray-800 border-b pb-3 mb-4"><i class="fas fa-sliders-h mr-2 text-primary"></i>Pengaturan Soal</h3>
                         
-                        <div class="space-y-4">
+                        <!-- Baris 1: Mapel, Kelas, Materi -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Mata Pelajaran</label>
-                                <select id="gen-mapel" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-primary focus:border-primary">
+                                <select id="gen-mapel" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-primary focus:border-primary bg-white">
                                     <option value="Matematika">Matematika</option>
                                     <option value="Bahasa Indonesia">Bahasa Indonesia</option>
-                                    <option value="IPAS">IPAS (Ilmu Pengetahuan Alam & Sosial)</option>
+                                    <option value="IPAS">IPAS</option>
                                     <option value="PPKn">PPKn</option>
                                     <option value="Pendidikan Agama Islam">Pendidikan Agama Islam</option>
                                     <option value="Seni Budaya">Seni Budaya</option>
@@ -158,86 +167,92 @@
                                 </select>
                             </div>
 
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Kelas</label>
-                                    <select id="gen-kelas" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-primary focus:border-primary">
-                                        <option value="Kelas 1">Kelas 1</option>
-                                        <option value="Kelas 2">Kelas 2</option>
-                                        <option value="Kelas 3">Kelas 3</option>
-                                        <option value="Kelas 4">Kelas 4</option>
-                                        <option value="Kelas 5">Kelas 5</option>
-                                        <option value="Kelas 6">Kelas 6</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Soal</label>
-                                    <select id="gen-jenis" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-primary focus:border-primary">
-                                        <option value="Pilihan Ganda">Pilihan Ganda</option>
-                                        <option value="Isian Singkat">Isian Singkat</option>
-                                        <option value="Benar / Salah">Benar / Salah</option>
-                                        <option value="Uraian">Uraian</option>
-                                    </select>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Kelas</label>
+                                <select id="gen-kelas" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-primary focus:border-primary bg-white">
+                                    <option value="Kelas 1">Kelas 1</option>
+                                    <option value="Kelas 2">Kelas 2</option>
+                                    <option value="Kelas 3">Kelas 3</option>
+                                    <option value="Kelas 4">Kelas 4</option>
+                                    <option value="Kelas 5">Kelas 5</option>
+                                    <option value="Kelas 6">Kelas 6</option>
+                                </select>
+                            </div>
+
+                            <div class="lg:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Materi / Bab / Tema</label>
+                                <input type="text" id="gen-materi" placeholder="Contoh: Pecahan, Gaya Gesek, dll" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-primary focus:border-primary">
+                            </div>
+                        </div>
+
+                        <!-- Baris 2: Jenis Soal & Kesulitan -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+                            
+                            <!-- JENIS SOAL (CHECKBOXES) -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Jenis Soal <span class="text-xs font-normal text-gray-500">(Bisa pilih lebih dari satu)</span></label>
+                                <div class="grid grid-cols-2 gap-3 p-3 border border-gray-200 rounded-lg bg-gray-50 h-[86px]">
+                                    <label class="flex items-center space-x-3 cursor-pointer p-1 rounded hover:bg-gray-100 transition">
+                                        <input type="checkbox" value="Pilihan Ganda" class="chk-jenis-soal w-4 h-4 text-primary bg-white border-gray-300 rounded focus:ring-primary" checked>
+                                        <span class="text-sm font-medium text-gray-700">Pilihan Ganda</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer p-1 rounded hover:bg-gray-100 transition">
+                                        <input type="checkbox" value="Isian Singkat" class="chk-jenis-soal w-4 h-4 text-primary bg-white border-gray-300 rounded focus:ring-primary">
+                                        <span class="text-sm font-medium text-gray-700">Isian Singkat</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer p-1 rounded hover:bg-gray-100 transition">
+                                        <input type="checkbox" value="Benar / Salah" class="chk-jenis-soal w-4 h-4 text-primary bg-white border-gray-300 rounded focus:ring-primary">
+                                        <span class="text-sm font-medium text-gray-700">Benar / Salah</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer p-1 rounded hover:bg-gray-100 transition">
+                                        <input type="checkbox" value="Uraian" class="chk-jenis-soal w-4 h-4 text-primary bg-white border-gray-300 rounded focus:ring-primary">
+                                        <span class="text-sm font-medium text-gray-700">Uraian</span>
+                                    </label>
                                 </div>
                             </div>
 
+                            <!-- TINGKAT KESULITAN & JUMLAH -->
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Materi / Bab</label>
-                                <input type="text" id="gen-materi" placeholder="Contoh: Pecahan, Gaya dan Gerak, dll" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-primary focus:border-primary">
-                            </div>
-
-                            <!-- TINGKAT KESULITAN & JUMLAH MULTIPLE CHECKBOX -->
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Tingkat Kesulitan & Jumlah Soal</label>
-                                <div class="space-y-3 p-4 border border-gray-200 rounded-lg bg-gray-50">
-                                    
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Tingkat Kesulitan & Jumlah Total Soal</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 p-3 border border-gray-200 rounded-lg bg-gray-50 h-[86px] overflow-hidden">
                                     <!-- Mudah -->
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-center">
-                                            <input type="checkbox" id="chk-mudah" class="w-4 h-4 text-primary bg-white border-gray-300 rounded focus:ring-primary cursor-pointer" onchange="toggleInput('mudah')">
-                                            <label for="chk-mudah" class="ml-2 text-sm font-medium text-gray-700 cursor-pointer">Mudah</label>
-                                        </div>
-                                        <div class="flex items-center gap-2">
-                                            <input type="number" id="jml-mudah" min="1" max="50" value="5" disabled class="w-20 border border-gray-300 rounded p-1.5 text-sm text-center disabled:bg-gray-200 disabled:text-gray-400 focus:ring-primary focus:border-primary transition-all">
-                                            <span class="text-xs text-gray-500 w-8">soal</span>
-                                        </div>
+                                    <div class="flex items-center justify-between bg-white px-2 py-1.5 rounded border border-gray-200 shadow-sm h-full">
+                                        <label class="flex items-center cursor-pointer">
+                                            <input type="checkbox" id="chk-mudah" class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary" onchange="toggleInput('mudah')">
+                                            <span class="ml-1.5 text-xs font-medium text-gray-700">Mudah</span>
+                                        </label>
+                                        <input type="number" id="jml-mudah" min="1" max="50" value="5" disabled class="w-10 border border-gray-300 rounded py-0.5 px-1 text-xs text-center disabled:bg-gray-100 disabled:text-gray-400 focus:ring-primary focus:border-primary">
                                     </div>
-                                    
                                     <!-- Sedang -->
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-center">
-                                            <input type="checkbox" id="chk-sedang" class="w-4 h-4 text-primary bg-white border-gray-300 rounded focus:ring-primary cursor-pointer" onchange="toggleInput('sedang')">
-                                            <label for="chk-sedang" class="ml-2 text-sm font-medium text-gray-700 cursor-pointer">Sedang</label>
-                                        </div>
-                                        <div class="flex items-center gap-2">
-                                            <input type="number" id="jml-sedang" min="1" max="50" value="5" disabled class="w-20 border border-gray-300 rounded p-1.5 text-sm text-center disabled:bg-gray-200 disabled:text-gray-400 focus:ring-primary focus:border-primary transition-all">
-                                            <span class="text-xs text-gray-500 w-8">soal</span>
-                                        </div>
+                                    <div class="flex items-center justify-between bg-white px-2 py-1.5 rounded border border-gray-200 shadow-sm h-full">
+                                        <label class="flex items-center cursor-pointer">
+                                            <input type="checkbox" id="chk-sedang" class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary" onchange="toggleInput('sedang')">
+                                            <span class="ml-1.5 text-xs font-medium text-gray-700">Sedang</span>
+                                        </label>
+                                        <input type="number" id="jml-sedang" min="1" max="50" value="5" disabled class="w-10 border border-gray-300 rounded py-0.5 px-1 text-xs text-center disabled:bg-gray-100 disabled:text-gray-400 focus:ring-primary focus:border-primary">
                                     </div>
-                                    
                                     <!-- Sulit -->
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-center">
-                                            <input type="checkbox" id="chk-sulit" class="w-4 h-4 text-primary bg-white border-gray-300 rounded focus:ring-primary cursor-pointer" onchange="toggleInput('sulit')">
-                                            <label for="chk-sulit" class="ml-2 text-sm font-medium text-gray-700 cursor-pointer">Sulit</label>
-                                        </div>
-                                        <div class="flex items-center gap-2">
-                                            <input type="number" id="jml-sulit" min="1" max="50" value="5" disabled class="w-20 border border-gray-300 rounded p-1.5 text-sm text-center disabled:bg-gray-200 disabled:text-gray-400 focus:ring-primary focus:border-primary transition-all">
-                                            <span class="text-xs text-gray-500 w-8">soal</span>
-                                        </div>
+                                    <div class="flex items-center justify-between bg-white px-2 py-1.5 rounded border border-gray-200 shadow-sm h-full">
+                                        <label class="flex items-center cursor-pointer">
+                                            <input type="checkbox" id="chk-sulit" class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary" onchange="toggleInput('sulit')">
+                                            <span class="ml-1.5 text-xs font-medium text-gray-700">Sulit</span>
+                                        </label>
+                                        <input type="number" id="jml-sulit" min="1" max="50" value="5" disabled class="w-10 border border-gray-300 rounded py-0.5 px-1 text-xs text-center disabled:bg-gray-100 disabled:text-gray-400 focus:ring-primary focus:border-primary">
                                     </div>
-
                                 </div>
                             </div>
 
-                            <button onclick="generateSoalAI()" class="w-full mt-4 bg-secondary hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg shadow transition flex justify-center items-center group">
-                                <i class="fas fa-magic mr-2 group-hover:animate-pulse"></i> Generate Soal dengan AI
+                        </div>
+
+                        <div class="flex justify-end mt-6">
+                            <button onclick="generateSoalAI()" class="bg-secondary hover:bg-green-600 text-white font-bold py-2.5 px-8 rounded-lg shadow transition flex justify-center items-center group">
+                                <i class="fas fa-magic mr-2 group-hover:animate-pulse"></i> Generate Soal AI
                             </button>
                         </div>
                     </div>
 
                     <!-- Hasil Output -->
-                    <div class="w-full lg:w-2/3 bg-white rounded-xl shadow-sm flex flex-col print-container">
+                    <div class="w-full bg-white rounded-xl shadow-sm flex flex-col print-container min-h-[500px]">
                         
                         <!-- Toolbar Hasil -->
                         <div class="p-4 border-b border-gray-200 flex flex-wrap justify-between items-center bg-gray-50 rounded-t-xl no-print">
@@ -251,22 +266,22 @@
                                     <i class="fas fa-random mr-1"></i> Acak
                                 </button>
                                 <button onclick="simpanKeBank()" class="px-3 py-1.5 bg-blue-100 text-primary rounded hover:bg-blue-200 text-sm flex items-center disabled:opacity-50 transition" id="btn-save-sheet">
-                                    <i class="fas fa-cloud-upload-alt mr-1"></i> Simpan
+                                    <i class="fas fa-cloud-upload-alt mr-1"></i> Simpan ke Bank
                                 </button>
                                 <button onclick="cetakPDF()" class="px-3 py-1.5 bg-gray-800 text-white rounded hover:bg-gray-900 text-sm flex items-center transition">
-                                    <i class="fas fa-print mr-1"></i> Cetak/PDF
+                                    <i class="fas fa-print mr-1"></i> Cetak / PDF
                                 </button>
                             </div>
                         </div>
 
                         <!-- Area Tampilan Data -->
                         <div class="p-8 flex-1 overflow-y-auto" id="result-container">
-                            <div id="placeholder-result" class="h-full flex flex-col items-center justify-center text-gray-400">
+                            <div id="placeholder-result" class="h-full flex flex-col items-center justify-center text-gray-400 py-10">
                                 <i class="far fa-file-alt text-6xl mb-4 text-gray-300"></i>
-                                <p>Silakan centang tingkat kesulitan, isi form dan klik "Generate".</p>
+                                <p>Silakan isi form pengaturan di atas lalu klik "Generate Soal AI".</p>
                             </div>
 
-                            <!-- Header Kop Surat (Hanya Tampil Saat Dicetak/Ada Data) -->
+                            <!-- Header Kop Surat -->
                             <div id="kop-surat" class="hidden mb-8 border-b-2 border-black pb-4">
                                 <h1 class="text-center text-2xl font-bold uppercase" id="kop-judul">LATIHAN SOAL</h1>
                                 <div class="flex justify-between mt-4 text-sm">
@@ -356,7 +371,6 @@
                     <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-4"><i class="fas fa-cog mr-2 text-primary"></i> Pengaturan Sistem</h2>
                     
                     <div class="space-y-6">
-                        <!-- Gemini API Key -->
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">Google Gemini API Key</label>
                             <p class="text-xs text-gray-500 mb-2">Dapatkan API key secara gratis di <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-blue-500 hover:underline">Google AI Studio</a>.</p>
@@ -368,7 +382,6 @@
                             </div>
                         </div>
 
-                        <!-- Google Apps Script URL -->
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">Google Apps Script Web App URL (Backend)</label>
                             <p class="text-xs text-gray-500 mb-2">URL deployment dari script Google Sheet untuk menyimpan bank soal.</p>
@@ -396,7 +409,7 @@
     <!-- JavaScript Logic -->
     <script>
         // --- GLOBAL VARIABLES ---
-        let currentSoalData = []; // Menyimpan JSON soal yang di-generate
+        let currentSoalData = [];
         let appSettings = {
             geminiKey: localStorage.getItem('sd_gemini_key') || '',
             gasUrl: localStorage.getItem('sd_gas_url') || ''
@@ -458,7 +471,7 @@
             if (checkbox.checked) {
                 input.disabled = false;
                 if (input.value === "" || input.value <= 0) {
-                    input.value = "5"; // Default value jika kosong
+                    input.value = "5"; 
                 }
                 input.focus();
             } else {
@@ -532,11 +545,19 @@
             const mapel = document.getElementById('gen-mapel').value;
             const kelas = document.getElementById('gen-kelas').value;
             const materi = document.getElementById('gen-materi').value;
-            const jenis = document.getElementById('gen-jenis').value;
 
             if (!materi) {
                 alert("Kolom Materi / Bab harus diisi!");
                 document.getElementById('gen-materi').focus();
+                return;
+            }
+
+            // Validasi Jenis Soal (Bisa Multiple)
+            const checkboxJenis = document.querySelectorAll('.chk-jenis-soal:checked');
+            const jenisTerpilih = Array.from(checkboxJenis).map(cb => cb.value);
+
+            if (jenisTerpilih.length === 0) {
+                alert("Centang minimal satu Jenis Soal!");
                 return;
             }
 
@@ -552,7 +573,7 @@
             const totalSoal = jmlMudah + jmlSedang + jmlSulit;
 
             if (totalSoal === 0) {
-                alert("Pilih setidaknya satu tingkat kesulitan dan pastikan jumlah soal lebih dari 0!");
+                alert("Centang minimal satu tingkat kesulitan dan tentukan jumlah soalnya!");
                 return;
             }
 
@@ -568,7 +589,8 @@
             document.getElementById('placeholder-result').classList.add('hidden');
             
             // Set Kop Surat
-            document.getElementById('kop-judul').innerText = `LATIHAN SOAL ${jenis.toUpperCase()}`;
+            const judulKop = jenisTerpilih.length > 1 ? "LATIHAN SOAL CAMPURAN" : `LATIHAN SOAL ${jenisTerpilih[0].toUpperCase()}`;
+            document.getElementById('kop-judul').innerText = judulKop;
             document.getElementById('kop-mapel').innerText = mapel;
             document.getElementById('kop-kelas').innerText = kelas;
             document.getElementById('kop-materi').innerText = materi;
@@ -576,24 +598,28 @@
             // Buat Prompt untuk Gemini
             const promptText = `
 Anda adalah guru Sekolah Dasar yang ahli membuat soal ujian.
-Buatkan total ${totalSoal} soal jenis ${jenis} untuk ${kelas} mata pelajaran ${mapel}.
+Buatkan total ${totalSoal} soal untuk ${kelas} mata pelajaran ${mapel}.
 Materi atau Tema: "${materi}".
 
-Rincian jumlah dan tingkat kesulitan yang harus diikuti dengan ketat:
+Jenis soal yang dibuat harus terdiri dari kombinasi: ${jenisTerpilih.join(', ')}.
+Mohon bagikan jumlah soal secara proporsional atau acak di antara jenis-jenis soal yang diminta tersebut.
+
+Rincian jumlah dan tingkat kesulitan yang harus diikuti secara persis (total ${totalSoal} soal):
 ${rincianList.join('\n')}
 
-Syarat Output HARUS berupa valid JSON Array of Objects tanpa text markdown apapun (seperti \`\`\`json). Format JSON:
+Syarat Output HARUS berupa valid JSON Array of Objects murni tanpa text markdown apapun. Format JSON:
 [
   {
     "nomor": 1,
     "kesulitan": "Mudah/Sedang/Sulit",
-    "soal": "Pertanyaan soal disini...",
-    "pilihan": ${jenis === 'Pilihan Ganda' ? '{"A": "opsi 1", "B": "opsi 2", "C": "opsi 3", "D": "opsi 4"}' : 'null'},
-    "jawaban": "${jenis === 'Pilihan Ganda' ? 'A/B/C/D' : 'Kunci jawaban singkat/benar-salah/uraian'}",
+    "jenis_soal": "Isi dengan salah satu dari: ${jenisTerpilih.join(' / ')}",
+    "soal": "Tuliskan pertanyaan soal disini...",
+    "pilihan": {"A": "opsi 1", "B": "opsi 2", "C": "opsi 3", "D": "opsi 4"}, // WAJIB ADA jika jenis_soalnya Pilihan Ganda. Jika jenis soal yang lain, isi dengan null.
+    "jawaban": "A/B/C/D atau Kunci jawaban singkat/benar-salah/uraian",
     "pembahasan": "Penjelasan detail mengapa jawaban tersebut benar."
   }
 ]
-Penting: Output HANYA boleh berisi kurung siku [...] JSON. Urutkan soal dari yang Mudah ke Sulit.
+Penting: Output HANYA boleh berisi kurung siku [...] JSON.
 `;
 
             try {
@@ -615,13 +641,11 @@ Penting: Output HANYA boleh berisi kurung siku [...] JSON. Urutkan soal dari yan
                 const data = await response.json();
                 let rawText = data.candidates[0].content.parts[0].text;
                 
-                // Bersihkan Markdown dari respon (jika AI membandel)
+                // Bersihkan Markdown dari respon
                 rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
                 
-                // Parse JSON
                 currentSoalData = JSON.parse(rawText);
                 
-                // Render Hasil
                 renderSoal();
                 document.getElementById('kop-surat').classList.remove('hidden');
                 switchResultTab('tab-soal');
@@ -634,7 +658,7 @@ Penting: Output HANYA boleh berisi kurung siku [...] JSON. Urutkan soal dari yan
 
             } catch (error) {
                 console.error(error);
-                alert("Terjadi kesalahan saat memproses AI. Pastikan API Key valid atau coba lagi.\nError: " + error.message);
+                alert("Terjadi kesalahan saat memproses AI. Pastikan format output AI valid atau coba klik Generate lagi.\nError: " + error.message);
                 document.getElementById('placeholder-result').classList.remove('hidden');
                 document.getElementById('kop-surat').classList.add('hidden');
             } finally {
@@ -652,71 +676,90 @@ Penting: Output HANYA boleh berisi kurung siku [...] JSON. Urutkan soal dari yan
             containerKunci.innerHTML = '';
             containerBahas.innerHTML = '';
 
-            const jenis = document.getElementById('gen-jenis').value;
-
-            currentSoalData.forEach((item, index) => {
-                // Pastikan nomor urut benar ulang
-                item.nomor = index + 1;
-
-                // Badge Tingkat Kesulitan (Hanya terlihat di layar, disembunyikan saat di-print)
-                let badgeColor = 'bg-gray-200 text-gray-700';
-                if(item.kesulitan) {
-                    let diff = item.kesulitan.toLowerCase();
-                    if(diff.includes('mudah')) badgeColor = 'bg-green-100 text-green-700 border-green-200';
-                    if(diff.includes('sedang')) badgeColor = 'bg-yellow-100 text-yellow-700 border-yellow-200';
-                    if(diff.includes('sulit')) badgeColor = 'bg-red-100 text-red-700 border-red-200';
-                }
-
-                // 1. Render Lembar Soal
-                let htmlSoal = `<div class="mb-6 break-inside-avoid">
-                    <div class="flex">
-                        <span class="font-bold mr-2 mt-0.5">${item.nomor}.</span>
-                        <div class="flex-1">
-                            <span class="text-[10px] ${badgeColor} px-2 py-0.5 rounded-full mr-2 align-middle print:hidden border font-semibold shadow-sm">${item.kesulitan || 'Umum'}</span>
-                            <span class="leading-relaxed">${item.soal.replace(/\n/g, '<br>')}</span>
-                        </div>
-                    </div>`;
-                
-                if (item.pilihan && jenis === 'Pilihan Ganda') {
-                    htmlSoal += `<div class="ml-6 mt-3 space-y-2">`;
-                    for (const [key, value] of Object.entries(item.pilihan)) {
-                        htmlSoal += `<div class="flex"><span class="w-6 font-medium">${key}.</span> <span>${value}</span></div>`;
-                    }
-                    htmlSoal += `</div>`;
-                } else if (jenis === 'Uraian' || jenis === 'Isian Singkat') {
-                    const lines = jenis === 'Uraian' ? '<br><br><br><br>' : '<br><br>';
-                    htmlSoal += `<div class="ml-6 mt-2 border-b-2 border-dotted border-gray-400 w-full h-8">${lines}</div>`;
-                } else if (jenis === 'Benar / Salah') {
-                    htmlSoal += `<div class="ml-6 mt-3 font-bold">( Benar / Salah )</div>`;
-                }
-                
-                htmlSoal += `</div>`;
-                containerSoal.innerHTML += htmlSoal;
-
-                // 2. Render Kunci
-                if (jenis === 'Pilihan Ganda' || jenis === 'Benar / Salah') {
-                    containerKunci.innerHTML += `<div class="p-2 border border-gray-200 rounded text-center"><span class="font-bold">${item.nomor}.</span> ${item.jawaban}</div>`;
-                } else {
-                    containerKunci.innerHTML += `<div class="p-2 border border-gray-200 rounded col-span-2 md:col-span-4"><span class="font-bold">${item.nomor}.</span> ${item.jawaban}</div>`;
-                }
-
-                // 3. Render Pembahasan
-                containerBahas.innerHTML += `<div class="mb-4 pb-4 border-b border-gray-200 break-inside-avoid">
-                    <p class="font-bold mb-1 flex items-center">
-                        Soal No. ${item.nomor} 
-                        <span class="text-[10px] ${badgeColor} px-2 py-0.5 rounded-full ml-2 print:hidden font-normal">${item.kesulitan || 'Umum'}</span>
-                    </p>
-                    <p class="text-gray-700"><strong>Jawaban:</strong> ${item.jawaban}</p>
-                    <p class="text-gray-600 mt-1">${item.pembahasan}</p>
-                </div>`;
+            // Group Soal Berdasarkan Jenis Soal (agar terlihat rapi jika ada banyak jenis)
+            let groupedSoal = {};
+            currentSoalData.forEach(item => {
+                const jenis = item.jenis_soal || 'Umum';
+                if(!groupedSoal[jenis]) groupedSoal[jenis] = [];
+                groupedSoal[jenis].push(item);
             });
+
+            let globalCounter = 1;
+
+            // Loop per kategori jenis soal
+            for(const [jenis, items] of Object.entries(groupedSoal)) {
+                
+                // Tampilkan Header Jenis Soal jika ada lebih dari 1 jenis yang di-generate
+                if(Object.keys(groupedSoal).length > 1) {
+                    containerSoal.innerHTML += `<div class="mt-8 mb-4 border-b-2 border-gray-300 pb-2"><h3 class="text-xl font-bold text-gray-800 uppercase">${jenis}</h3></div>`;
+                }
+
+                items.forEach((item) => {
+                    item.nomor = globalCounter++; // Re-assign nomor urut global
+                    const isPG = jenis.toLowerCase().includes('pilihan') || jenis.toLowerCase().includes('ganda');
+                    const isBS = jenis.toLowerCase().includes('benar') && jenis.toLowerCase().includes('salah');
+                    const isUraian = jenis.toLowerCase().includes('uraian');
+
+                    // Badge Tingkat Kesulitan
+                    let badgeColor = 'bg-gray-200 text-gray-700';
+                    if(item.kesulitan) {
+                        let diff = item.kesulitan.toLowerCase();
+                        if(diff.includes('mudah')) badgeColor = 'bg-green-100 text-green-700 border-green-200';
+                        if(diff.includes('sedang')) badgeColor = 'bg-yellow-100 text-yellow-700 border-yellow-200';
+                        if(diff.includes('sulit')) badgeColor = 'bg-red-100 text-red-700 border-red-200';
+                    }
+
+                    // 1. Render Lembar Soal
+                    let htmlSoal = `<div class="mb-6 break-inside-avoid">
+                        <div class="flex">
+                            <span class="font-bold mr-2 mt-0.5">${item.nomor}.</span>
+                            <div class="flex-1">
+                                <span class="text-[10px] ${badgeColor} px-2 py-0.5 rounded-full mr-2 align-middle print:hidden border font-semibold shadow-sm">${item.kesulitan || 'Umum'}</span>
+                                <span class="leading-relaxed">${item.soal.replace(/\n/g, '<br>')}</span>
+                            </div>
+                        </div>`;
+                    
+                    if (item.pilihan && isPG) {
+                        htmlSoal += `<div class="ml-6 mt-3 space-y-2">`;
+                        for (const [key, value] of Object.entries(item.pilihan)) {
+                            htmlSoal += `<div class="flex"><span class="w-6 font-medium">${key}.</span> <span>${value}</span></div>`;
+                        }
+                        htmlSoal += `</div>`;
+                    } else if (isUraian || jenis.toLowerCase().includes('isian')) {
+                        const lines = isUraian ? '<br><br><br><br>' : '<br><br>';
+                        htmlSoal += `<div class="ml-6 mt-2 border-b-2 border-dotted border-gray-400 w-full h-8">${lines}</div>`;
+                    } else if (isBS) {
+                        htmlSoal += `<div class="ml-6 mt-3 font-bold">( Benar / Salah )</div>`;
+                    }
+                    
+                    htmlSoal += `</div>`;
+                    containerSoal.innerHTML += htmlSoal;
+
+                    // 2. Render Kunci
+                    if (isPG || isBS) {
+                        containerKunci.innerHTML += `<div class="p-2 border border-gray-200 rounded text-center"><span class="font-bold">${item.nomor}.</span> ${item.jawaban}</div>`;
+                    } else {
+                        containerKunci.innerHTML += `<div class="p-2 border border-gray-200 rounded col-span-2 md:col-span-4"><span class="font-bold">${item.nomor}.</span> ${item.jawaban}</div>`;
+                    }
+
+                    // 3. Render Pembahasan
+                    containerBahas.innerHTML += `<div class="mb-4 pb-4 border-b border-gray-200 break-inside-avoid">
+                        <p class="font-bold mb-1 flex items-center">
+                            Soal No. ${item.nomor} 
+                            <span class="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full ml-2 print:hidden font-normal border border-blue-200">${jenis}</span>
+                            <span class="text-[10px] ${badgeColor} px-2 py-0.5 rounded-full ml-1 print:hidden font-normal">${item.kesulitan || 'Umum'}</span>
+                        </p>
+                        <p class="text-gray-700"><strong>Jawaban:</strong> ${item.jawaban}</p>
+                        <p class="text-gray-600 mt-1">${item.pembahasan}</p>
+                    </div>`;
+                });
+            }
         }
 
         // --- FITUR TAMBAHAN ---
         function acakSoal() {
             if(currentSoalData.length === 0) return;
             
-            // Fisher-Yates shuffle
             for (let i = currentSoalData.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [currentSoalData[i], currentSoalData[j]] = [currentSoalData[j], currentSoalData[i]];
@@ -750,10 +793,8 @@ Penting: Output HANYA boleh berisi kurung siku [...] JSON. Urutkan soal dari yan
             const mapel = document.getElementById('gen-mapel').value;
             const kelas = document.getElementById('gen-kelas').value;
             const materi = document.getElementById('gen-materi').value;
-            const jenisUtama = document.getElementById('gen-jenis').value;
             const tgl = new Date().toLocaleString('id-ID');
 
-            // Format payload ke bentuk yang diharapkan GAS
             const payload = {
                 action: "saveMultiple",
                 data: currentSoalData.map(item => ({
@@ -761,8 +802,7 @@ Penting: Output HANYA boleh berisi kurung siku [...] JSON. Urutkan soal dari yan
                     mapel: mapel,
                     kelas: kelas,
                     materi: materi,
-                    // Kita gabungkan info kesulitan ke dalam kolom jenis soal di spreadsheet
-                    jenis: item.kesulitan ? `${jenisUtama} (${item.kesulitan})` : jenisUtama,
+                    jenis: item.kesulitan ? `${item.jenis_soal || 'Umum'} (${item.kesulitan})` : (item.jenis_soal || 'Umum'),
                     nomor: item.nomor,
                     soal: item.soal,
                     pilA: item.pilihan ? item.pilihan.A || '' : '',
@@ -782,7 +822,6 @@ Penting: Output HANYA boleh berisi kurung siku [...] JSON. Urutkan soal dari yan
                 });
                 
                 showToast("Berhasil disimpan ke Spreadsheet!");
-                // Update statistik bank soal lokal
                 const statBank = document.getElementById('stat-bank');
                 statBank.innerText = parseInt(statBank.innerText) + currentSoalData.length;
 
@@ -806,7 +845,7 @@ Penting: Output HANYA boleh berisi kurung siku [...] JSON. Urutkan soal dari yan
                 const data = await response.json();
                 
                 if(data.status === 'success') {
-                    bankSoalData = data.data; // Simpan ke global
+                    bankSoalData = data.data; 
                     renderTableBank(bankSoalData);
                     document.getElementById('stat-bank').innerText = bankSoalData.length;
                 }
@@ -824,14 +863,11 @@ Penting: Output HANYA boleh berisi kurung siku [...] JSON. Urutkan soal dari yan
                 return;
             }
 
-            // Reverse to show newest first
             [...dataList].reverse().forEach(row => {
                 const tr = document.createElement('tr');
                 tr.className = "border-b hover:bg-gray-50 transition";
                 
-                // Truncate Soal for display
                 const soalText = row[7].length > 50 ? row[7].substring(0, 50) + '...' : row[7];
-                // Ekstrak tag warna jika ada (Misal: Pilihan Ganda (Mudah))
                 let badgeJenis = `<span class="px-2 py-1 bg-gray-100 border border-gray-200 rounded text-xs text-gray-700">${row[5]}</span>`;
 
                 tr.innerHTML = `
@@ -880,13 +916,12 @@ Penting: Output HANYA boleh berisi kurung siku [...] JSON. Urutkan soal dari yan
                 const result = await response.json();
                 if(result.status === 'success') {
                     showToast("Soal dihapus!");
-                    loadBankSoal(); // Reload
+                    loadBankSoal(); 
                 }
             } catch(e) {
                 showToast("Gagal menghapus.", "error");
             }
         }
-
     </script>
 </body>
 </html>
